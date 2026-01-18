@@ -1,5 +1,9 @@
 ---
 const today = new Date();
+const base = import.meta.env.BASE_URL;
+const blogHref = `${base}blog/`;
+const aboutHref = `${base}about/`;
+const rssHref = `${base}rss.xml`;
 ---
 
 <footer class="site-footer">
@@ -11,9 +15,9 @@ const today = new Date();
       <div>&copy; {today.getFullYear()} Elephanttalk46.</div>
     </div>
     <div class="footer-links">
-      <a href="/blog">Archive</a>
-      <a href="/about">About</a>
-      <a href="/rss.xml">RSS</a>
+      <a href={blogHref}>Archive</a>
+      <a href={aboutHref}>About</a>
+      <a href={rssHref}>RSS</a>
     </div>
   </div>
 </footer>

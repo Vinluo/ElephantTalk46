@@ -1,15 +1,19 @@
 ---
 import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
+
+const base = import.meta.env.BASE_URL;
+const rssHref = `${base}rss.xml`;
+const ambientSrc = `${base}ambient.js`;
 ---
 
 <canvas class="ambient-canvas" id="ambient-canvas" aria-hidden="true"></canvas>
-<script type="module" src="/ambient.js"></script>
+<script type="module" src={ambientSrc}></script>
 
 <header class="site-header">
   <div class="header-inner">
     <div class="brand">
-      <a href="/">
+      <a href={base}>
         <span class="brand-mark">ET46</span>
         <span>{SITE_TITLE}</span>
       </a>
@@ -18,10 +22,10 @@ import HeaderLink from './HeaderLink.astro';
 
     <nav class="nav-links">
       <HeaderLink href="/">Home</HeaderLink>
-      <HeaderLink href="/blog">Blog</HeaderLink>
-      <HeaderLink href="/about">About</HeaderLink>
+      <HeaderLink href="/blog/">Blog</HeaderLink>
+      <HeaderLink href="/about/">About</HeaderLink>
     </nav>
 
-    <a class="nav-cta" href="/rss.xml">RSS</a>
+    <a class="nav-cta" href={rssHref}>RSS</a>
   </div>
 </header>

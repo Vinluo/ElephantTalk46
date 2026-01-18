@@ -6,6 +6,9 @@ import Header from '../components/Header.astro';
 import PostCard from '../components/PostCard.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
+const base = import.meta.env.BASE_URL;
+const withBase = (path: string) => `${base}${path.replace(/^\//, '')}`;
+
 const posts = (await getCollection('blog'))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
@@ -31,8 +34,8 @@ const latestPosts = posts.filter((post) => post !== featuredPost).slice(0, 3);
             static pages feel alive.
           </p>
           <div class="hero-actions">
-            <a class="button primary" href="/blog">Enter the journal</a>
-            <a class="button secondary" href="/about">About this studio</a>
+            <a class="button primary" href={withBase('blog/')}>Enter the journal</a>
+            <a class="button secondary" href={withBase('about/')}>About this studio</a>
           </div>
         </div>
         <div class="hero-stats">
@@ -58,7 +61,7 @@ const latestPosts = posts.filter((post) => post !== featuredPost).slice(0, 3);
         </div>
         <div class="post-grid">
           {latestPosts.map((post) => (
-            <a class="post-link" href={`/blog/${post.id}/`}>
+            <a class="post-link" href={withBase(`blog/${post.id}/`)}>
               <PostCard post={post} />
             </a>
           ))}
@@ -67,16 +70,16 @@ const latestPosts = posts.filter((post) => post !== featuredPost).slice(0, 3);
 
       {featuredPost && (
         <section>
-          <div class="section-title">
-            <h2>Featured deep dive</h2>
-            <span>Spotlight</span>
-          </div>
-          <div class="post-grid">
-            <a class="post-link" href={`/blog/${featuredPost.id}/`}>
-              <PostCard post={featuredPost} />
-            </a>
-          </div>
-        </section>
+        <div class="section-title">
+          <h2>Featured deep dive</h2>
+          <span>Spotlight</span>
+        </div>
+        <div class="post-grid">
+          <a class="post-link" href={withBase(`blog/${featuredPost.id}/`)}>
+            <PostCard post={featuredPost} />
+          </a>
+        </div>
+      </section>
       )}
 
       <section>

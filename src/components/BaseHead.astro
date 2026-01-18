@@ -14,6 +14,7 @@ interface Props {
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const baseUrl = new URL(import.meta.env.BASE_URL, Astro.site);
 
 const { title, description, image = FallbackImage, type = 'website' } = Astro.props;
 ---
@@ -21,13 +22,13 @@ const { title, description, image = FallbackImage, type = 'website' } = Astro.pr
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+<link rel="sitemap" href={new URL('sitemap-index.xml', baseUrl)} />
 <link
 	rel="alternate"
 	type="application/rss+xml"
 	title={SITE_TITLE}
-	href={new URL('rss.xml', Astro.site)}
+	href={new URL('rss.xml', baseUrl)}
 />
 <meta name="generator" content={Astro.generator} />
 <meta name="theme-color" content="#f4efe6" />

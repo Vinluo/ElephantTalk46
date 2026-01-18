@@ -6,6 +6,9 @@ import Header from '../../components/Header.astro';
 import PostCard from '../../components/PostCard.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
+const base = import.meta.env.BASE_URL;
+const withBase = (path: string) => `${base}${path.replace(/^\//, '')}`;
+
 const posts = (await getCollection('blog'))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
@@ -43,7 +46,7 @@ const posts = (await getCollection('blog'))
       <section>
         <div class="post-grid">
           {posts.map((post) => (
-            <a class="post-link" href={`/blog/${post.id}/`}>
+            <a class="post-link" href={withBase(`blog/${post.id}/`)}>
               <PostCard post={post} />
             </a>
           ))}
