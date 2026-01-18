@@ -1,0 +1,105 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import PostCard from '../components/PostCard.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const featuredPost = posts.find((post) => post.data.featured) ?? posts[0];
+const latestPosts = posts.filter((post) => post !== featuredPost).slice(0, 3);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section class="hero">
+        <div class="hero-panel">
+          <div class="hero-eyebrow">Transmission Active</div>
+          <h1 class="hero-title">Design notes from a signal-obsessed front-end lab.</h1>
+          <p class="hero-subtitle">
+            Field logs on interface systems, shader-driven visuals, and the small rituals that make
+            static pages feel alive.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="/blog">Enter the journal</a>
+            <a class="button secondary" href="/about">About this studio</a>
+          </div>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-card">
+            <div class="stat-label">Focus</div>
+            <div class="stat-value">Visual Systems</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Cadence</div>
+            <div class="stat-value">Monthly Drops</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Signal Type</div>
+            <div class="stat-value">Static + WebGL</div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <h2>Latest transmissions</h2>
+          <span>Recent</span>
+        </div>
+        <div class="post-grid">
+          {latestPosts.map((post) => (
+            <a class="post-link" href={`/blog/${post.id}/`}>
+              <PostCard post={post} />
+            </a>
+          ))}
+        </div>
+      </section>
+
+      {featuredPost && (
+        <section>
+          <div class="section-title">
+            <h2>Featured deep dive</h2>
+            <span>Spotlight</span>
+          </div>
+          <div class="post-grid">
+            <a class="post-link" href={`/blog/${featuredPost.id}/`}>
+              <PostCard post={featuredPost} />
+            </a>
+          </div>
+        </section>
+      )}
+
+      <section>
+        <div class="section-title">
+          <h2>Signal stack</h2>
+          <span>Toolkit</span>
+        </div>
+        <div class="feature-blocks">
+          <div class="feature-block">
+            <h3 class="feature-title">Astro core</h3>
+            <p>Markdown-first pipeline with component slots for visual experiments and embeds.</p>
+          </div>
+          <div class="feature-block">
+            <h3 class="feature-title">Ambient canvas</h3>
+            <p>Layered gradients and slow drift animations to keep the surface in motion.</p>
+          </div>
+          <div class="feature-block">
+            <h3 class="feature-title">Design tokens</h3>
+            <p>Color, spacing, and typography tokens tuned for calm, precise reading sessions.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>

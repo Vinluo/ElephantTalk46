@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import PostCard from '../../components/PostCard.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`${SITE_TITLE} | Blog`} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section>
+        <div class="section-title">
+          <h2>Archive</h2>
+          <span>{posts.length} entries</span>
+        </div>
+        <div class="feature-blocks">
+          <div class="feature-block">
+            <h3 class="feature-title">Field notes</h3>
+            <p>Long-form breakdowns on interaction systems, shader cues, and performance tradeoffs.</p>
+          </div>
+          <div class="feature-block">
+            <h3 class="feature-title">Process logs</h3>
+            <p>Short entries tracking experiments, production notes, and design checkpoints.</p>
+          </div>
+          <div class="feature-block">
+            <h3 class="feature-title">References</h3>
+            <p>Links, diagrams, and small studies that feed the larger narrative.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="post-grid">
+          {posts.map((post) => (
+            <a class="post-link" href={`/blog/${post.id}/`}>
+              <PostCard post={post} />
+            </a>
+          ))}
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,35 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, tags, readingTime, heroImage, category } = post.data;
+---
+
+<article class="post-card">
+  {heroImage && (
+    <Image class="post-thumb" width={640} height={360} src={heroImage} alt="" />
+  )}
+  <div class="post-meta">
+    <span>{category ?? 'Field Notes'}</span>
+    {readingTime && <span>{readingTime}</span>}
+  </div>
+  <h3 class="post-title">{title}</h3>
+  <p>{description}</p>
+  <div class="post-meta">
+    <FormattedDate date={pubDate} />
+    <span>Read Entry</span>
+  </div>
+  {tags?.length ? (
+    <div class="tag-list">
+      {tags.map((tag) => (
+        <span class="tag">{tag}</span>
+      ))}
+    </div>
+  ) : null}
+</article>

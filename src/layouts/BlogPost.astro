@@ -1,0 +1,63 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+
+type Props = CollectionEntry<'blog'>['data'];
+
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  heroImage,
+  tags,
+  category,
+  readingTime,
+} = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} type="article" />
+  </head>
+
+  <body>
+    <Header />
+    <main class="article-shell">
+      <header class="article-header">
+        <div class="article-meta">
+          <span>{category ?? 'Field Notes'}</span>
+          <FormattedDate date={pubDate} />
+          {readingTime && <span>{readingTime}</span>}
+          {updatedDate && (
+            <span>Updated <FormattedDate date={updatedDate} /></span>
+          )}
+        </div>
+        <h1 class="article-title">{title}</h1>
+        <p>{description}</p>
+        {tags?.length ? (
+          <div class="tag-list">
+            {tags.map((tag) => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        ) : null}
+      </header>
+
+      {heroImage && (
+        <div class="article-hero">
+          <Image width={1200} height={600} src={heroImage} alt="" />
+        </div>
+      )}
+
+      <article class="prose">
+        <slot />
+      </article>
+    </main>
+    <Footer />
+  </body>
+</html>

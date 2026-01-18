@@ -1,0 +1,30 @@
+---
+import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
+import Layout from '../layouts/BlogPost.astro';
+---
+
+<Layout
+  title="About the Studio"
+  description="A compact logbook for visual experiments and interface systems."
+  pubDate={new Date('2024-12-01')}
+  heroImage={AboutHeroImage}
+  category="Profile"
+  readingTime="4 min read"
+  tags={["studio", "process", "tooling"]}
+>
+  <p>
+    Elephanttalk46 is a long-term notebook for building visual systems that feel tactile and
+    cinematic. The focus is on front-end experiments that mix static publishing with lightweight
+    shaders, small interaction cues, and disciplined typography.
+  </p>
+
+  <p>
+    Every entry is treated like a transmission: clear signal, low noise. That means prototype-first
+    workflows, small design tokens, and repeatable patterns that make future posts easier to ship.
+  </p>
+
+  <p>
+    If you are mapping a similar path, start with a structure that keeps content and visuals
+    decoupled. Build the pipeline, then let the atmosphere grow over time.
+  </p>
+</Layout>
